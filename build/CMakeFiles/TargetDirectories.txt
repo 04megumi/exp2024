@@ -1,0 +1,5 @@
+/Users/weiziyue/Desktop/exp2024/build/CMakeFiles/edit_cache.dir
+/Users/weiziyue/Desktop/exp2024/build/CMakeFiles/rebuild_cache.dir
+/Users/weiziyue/Desktop/exp2024/build/bin/CMakeFiles/exp.dir
+/Users/weiziyue/Desktop/exp2024/build/bin/CMakeFiles/edit_cache.dir
+/Users/weiziyue/Desktop/exp2024/build/bin/CMakeFiles/rebuild_cache.dir

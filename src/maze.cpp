@@ -1,13 +1,12 @@
 #include "maze.hpp"
+#include <raylib.h>
 
-Maze::Maze() : path("../res/maze.txt"), window(sf::VideoMode(800, 600), "Maze Game")
+Maze::Maze() : path("../res/maze.txt"), player{0, 0} 
 {
-    cellShape.setSize(sf::Vector2f(30.f, 30.f)); // 设置单个迷宫格子的大小
-    cellShape.setOutlineThickness(1.f); // 使格子有边框
-    cellShape.setOutlineColor(sf::Color::Black); // 设置边框颜色
+    cellShape.width = 30.f;
+    cellShape.height = 30.f;
     setData();
-    findPath();
-    display();
+    InitWindow(blocks[0].size() * 30, blocks.size() * 30 + 30, "Maze Game (Press H For AI)");
 }
 
 void Maze::setData()
@@ -15,135 +14,281 @@ void Maze::setData()
     ifstream input(this->path);
     if (!input)
         cout << "ERROR::OPEN FILE" << endl;
-
     string line;
     int cur = 0;
     while (getline(input, line))
     {
         istringstream iss(line);
         int number;
-        vector<int> numbers;
         if (cur == 0)
         {
             int width, height;
             iss >> width >> height;
             this->blocks.resize(height, vector<block>(width, air));
+            this->visited.resize(height, vector<bool>(width, false));
         }
-        if (cur == 1 || cur == 2)
+        if (cur == 1)
         {
-            int x, y;
-            iss >> x >> y;
-            if (cur == 1)
-                start.x = x, start.y = y;
-            if (cur == 2)
-                end.x = x, end.y = y;
+            int numstart, numend;
+            iss >> numstart >> numend;
+            //cout << numstart << " " << numend << endl;
+            this->starts.resize(numstart), this->ends.resize(numend);
+            int i = 0;
+            while(i < numstart)
+            {
+                getline(input, line);
+                istringstream iss(line);
+                int x, y;
+                iss >> x >> y;
+                cout << i << ": " << x << y << endl;
+                point newpoint = {x, y};
+                this->starts[i] = newpoint;
+                i++;
+            }
+            i = 0;
+            while(i < numend)
+            {
+                getline(input, line);
+                istringstream iss(line);
+                int x, y;
+                iss >> x >> y;
+                point newpoint = {x, y};
+                this->ends[i] = newpoint;
+                i++;
+            }
+            cur = 2;
         }
         else
         {
             int w = 0;
             while (iss >> number)
             {
-                if (number)
-                {
-                    blocks[cur - 3][w] = obstacle;
-                }
-                else
-                {
-                    blocks[cur - 3][w] = air;
-                }
+                blocks[cur - 3][w] = (number ? obstacle : air);
                 w++;
             }
         }
         cur++;
     }
     input.close();
-    blocks[start.y][start.x] = block::start;
-    blocks[end.y][end.x] = block::end;
-    cout << "SUCCESS::SETDATA" << endl;
-}
-
-void Maze::display()
-{
-    window.clear(sf::Color::White);
-    drawMaze();
-    window.display();
+    for(auto point : this->starts)
+    {
+        blocks[point.y][point.x] = block::start;
+    }
+    for(auto point : this->ends)
+    {
+        blocks[point.y][point.x] = block::end;
+    }
+    player = this->starts[0]; 
 }
 
 void Maze::render()
 {
-    // 渲染主窗口
-    window.clear();
-    drawMaze();
-    window.display();
+    while(!WindowShouldClose())
+    {
+        if(this->now == state::play)
+        {
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+
+            drawMaze();
+            processInput();
+
+            EndDrawing();
+        } else {
+            ai(0);
+            this->now = state::play;
+        }
+        
+    }
 }
 
 void Maze::drawMaze()
 {
-    // 绘制迷宫
     for (int i = 0; i < blocks.size(); i++)
     {
         for (int j = 0; j < blocks[i].size(); j++)
         {
-            if (blocks[i][j] == block::air)
-                cellShape.setFillColor(sf::Color::White); // 空地
-            if (blocks[i][j] == block::obstacle)
-                cellShape.setFillColor(sf::Color::Black); // 障碍物
-            if (blocks[i][j] == block::start)
-                cellShape.setFillColor(sf::Color::Green); // 起点
-            if (blocks[i][j] == block::end)
-                cellShape.setFillColor(sf::Color::Red); // 终点
-            if (blocks[i][j] == block::visited)
-                cellShape.setFillColor(sf::Color(0, 0, 255, 128)); // 已访问的路径
+            int x = j * 30; 
+            int y = i * 30; 
 
-            // 设置当前格子的显示位置
-            cellShape.setPosition(j * 30.f, i * 30.f); // 位置根据每个单元格的大小和坐标计算
-            window.draw(cellShape);
+            if (blocks[i][j] == block::air)
+                DrawRectangle(x, y, cellShape.width, cellShape.height, LIGHTGRAY); 
+            if (blocks[i][j] == block::obstacle)
+                DrawRectangle(x, y, cellShape.width, cellShape.height, DARKGRAY); 
+            if (blocks[i][j] == block::start)
+                DrawRectangle(x, y, cellShape.width, cellShape.height, GREEN);   
+            if (blocks[i][j] == block::end)
+                DrawRectangle(x, y, cellShape.width, cellShape.height, RED); 
+            if (blocks[i][j] == block::visited)
+                DrawRectangle(x, y, cellShape.width, cellShape.height, BLUE);    
         }
     }
+
+    DrawRectangle(player.x * 30, player.y * 30, cellShape.width, cellShape.height, YELLOW);
+    string s = "Find " + to_string(this->solutions) + " solutions";
+    DrawText(s.c_str(), 20, 30*(blocks.size()-1)+30 , 30, DARKGRAY);
 }
 
-bool Maze::findPath()
+void Maze::processInput()
 {
-    // 简单的广度优先搜索（BFS）寻找路径（这里只是一个例子，您可以使用更复杂的算法）
-    int dx[] = {1, -1, 0, 0}; // x方向的移动
-    int dy[] = {0, 0, 1, -1}; // y方向的移动
-    vector<vector<bool>> visited(blocks.size(), vector<bool>(blocks[0].size(), false));
-    vector<vector<point>> parent(blocks.size(), vector<point>(blocks[0].size()));
-
-    vector<point> queue;
-    queue.push_back(start);
-    visited[start.y][start.x] = true;
-
-    while (!queue.empty())
+    // 根据用户的键盘输入移动玩家
+    if (IsKeyPressed(KEY_W) && isValidMove(player.x, player.y - 1))
     {
-        point current = queue.front();
-        queue.erase(queue.begin());
-
-        // 如果找到了终点，回溯路径
-        if (current.x == end.x && current.y == end.y)
+        player.y--;
+        for(auto end : this->ends)
         {
-            point p = current;
-            while (p.x != start.x || p.y != start.y)
+            if (player.x == end.x && player.y == end.y)
             {
-                blocks[p.y][p.x] = block::visited;
-                p = parent[p.y][p.x];
-            }
-            return true;
-        }
-
-        // 扩展搜索
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = current.x + dx[i];
-            int ny = current.y + dy[i];
-
-            if (nx >= 0 && nx < blocks[0].size() && ny >= 0 && ny < blocks.size() && !visited[ny][nx] && blocks[ny][nx] != obstacle)
-            {
-                visited[ny][nx] = true;
-                parent[ny][nx] = current;
-                queue.push_back({nx, ny});
+                cout << "You Win" << endl;
+                DrawText("You Win!", blocks[0].size() * 10, blocks.size() * 10, 40, GREEN);
+                this->solutions ++;
             }
         }
     }
-    return false;
+    if (IsKeyPressed(KEY_S) && isValidMove(player.x, player.y + 1))
+    {
+        player.y++;
+        for(auto end : this->ends)
+        {
+            if (player.x == end.x && player.y == end.y)
+            {
+                cout << "You Win" << endl;
+                DrawText("You Win!", blocks[0].size() * 10, blocks.size() * 10, 40, GREEN);
+                this->solutions ++;
+            }
+        }
+    }
+    if (IsKeyPressed(KEY_A) && isValidMove(player.x - 1, player.y))
+    {
+        player.x--;
+        for(auto end : this->ends)
+        {
+            if (player.x == end.x && player.y == end.y)
+            {
+                cout << "You Win" << endl;
+                DrawText("You Win!", blocks[0].size() * 10, blocks.size() * 10, 40, GREEN);
+                this->solutions ++;
+            }
+        }
+    } 
+    if (IsKeyPressed(KEY_D) && isValidMove(player.x + 1, player.y))
+    {
+        player.x++;
+        for(auto end : this->ends)
+        {
+            if (player.x == end.x && player.y == end.y)
+            {
+                cout << "You Win" << endl;
+                DrawText("You Win!", blocks[0].size() * 10, blocks.size() * 10, 40, GREEN);
+                this->solutions ++;
+            }
+        }
+    } 
+    if (IsKeyPressed(KEY_H))
+    {
+        this->now = state::ai;
+    }
+    if (IsKeyPressed(KEY_N))
+    {
+        this -> start ++;
+        player.x = starts[start%(this->starts.size())].x;
+        player.y = starts[start%(this->starts.size())].y;
+    }
+    if (IsKeyPressed(KEY_ESCAPE))
+    {
+        CloseWindow();
+    }
+
+}
+
+bool Maze::isValidMove(int x, int y)
+{
+    return x >= 0 && x < blocks[0].size() && y >= 0 && y < blocks.size() && blocks[y][x] != obstacle;
+}
+
+bool Maze::ai(int n)
+{
+    if(n==0)
+    {
+        for(auto start :this->starts)
+        {
+            this->player.y = start.y, this->player.x = start.x;
+            ai(n+1);
+        }
+        return true;
+    }
+
+    cout << player.y << "," << player.x << endl;
+    bool flag = false, ans = false;
+    if (this->blocks[player.y][player.x] == block::start)
+        flag = true;
+    this->visited[player.y][player.x] = true;
+    this->blocks[player.y][player.x] = block::visited;
+    usleep(10000);
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    drawMaze();
+    EndDrawing();
+    for (auto end : this->ends)
+    {
+        if (player.x == end.x && player.y == end.y)
+        {
+            cout << "You Win" << endl;
+            this->solutions++;
+            this->blocks[player.y][player.x] = block::end;
+            this->visited[player.y][player.x] = false;
+            sleep(1);
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            drawMaze();
+            EndDrawing();
+            return true;
+        }
+    }
+    if (isValidMove(player.x + 1, player.y) && !visited[player.y][player.x + 1])
+    {
+        player.x++;
+        if (ai(n)) ans = true; // 子递归成功返回
+        player.x--;
+    }
+    if (isValidMove(player.x, player.y + 1) && !visited[player.y + 1][player.x])
+    {
+        player.y++;
+        if (ai(n)) ans = true;
+        player.y--;
+    }
+
+    if (isValidMove(player.x - 1, player.y) && !visited[player.y][player.x - 1])
+    {
+        player.x--;
+        if (ai(n)) ans = true;
+        player.x++;
+    }
+
+    if (isValidMove(player.x, player.y - 1) && !visited[player.y - 1][player.x])
+    {
+        player.y--;
+        if (ai(n)) ans = true;
+        player.y++;
+    }
+
+    // 回溯：恢复状态
+    if (flag)
+    {
+        this->blocks[player.y][player.x] = block::start;
+    }
+    else
+    {
+        this->blocks[player.y][player.x] = block::air;
+    }
+
+    this->visited[player.y][player.x] = false; // 回溯时重置访问标志
+
+    usleep(10000);
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    drawMaze();
+    EndDrawing();
+
+    return ans;
 }

@@ -1,9 +1,15 @@
+#ifndef MAZE_HPP
+#define MAZE_HPP
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <SFML/Graphics.hpp>
+#include <unistd.h>
+#include <raylib.h>
+#include <string>
+
 using namespace std;
 
 enum block
@@ -16,22 +22,32 @@ struct point
     int x, y;
 };
 
+enum state
+{
+    ai, play
+};
+
 class Maze
 {
 public:
     vector<vector<block>> blocks;
-    point start, end;
-    string path;
+    vector<vector<bool>> visited;
+    vector<point> starts, ends;       
+    point player;
+    string path;                  
+    Rectangle cellShape;            
 
-    //SFML
-    sf::RenderWindow window;
-    sf::RectangleShape cellShape;
-
-public:
     Maze();
     void setData();
-    void display();
+    void drawMaze();
     void render();
-    bool findPath(); // 迷宫路径查找
-    void drawMaze(); // 绘制迷宫
+    void processInput();
+    bool isValidMove(int x, int y);
+    bool ai(int n);
+
+    int solutions = 0;
+    int start = 0;
+    state now = state::play;
 };
+
+#endif
