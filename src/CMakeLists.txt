@@ -9,6 +9,6 @@ link_directories(/opt/homebrew/Cellar/raylib/5.5/lib)
 
 file(GLOB SOURCE "*.cpp")
 
-add_executable(exp main.cpp ${SOURCE})
+add_executable(exp main.cpp ${SOURCE} cal.cpp)
 
 target_link_libraries(exp raylib)

@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/exp.dir/app.cpp.o"
+  "CMakeFiles/exp.dir/app.cpp.o.d"
+  "CMakeFiles/exp.dir/cal.cpp.o"
+  "CMakeFiles/exp.dir/cal.cpp.o.d"
   "CMakeFiles/exp.dir/main.cpp.o"
   "CMakeFiles/exp.dir/main.cpp.o.d"
   "CMakeFiles/exp.dir/maze.cpp.o"

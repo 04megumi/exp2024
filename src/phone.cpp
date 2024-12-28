@@ -18,6 +18,8 @@ App::App(std::string path)
         getline(iss, currentInfo.number, ',');
         getline(iss, currentInfo.address);
         infos[currentInfo.name] = currentInfo;
+        infos2[currentInfo.number] = currentInfo;
+        tree.insert(currentInfo.number);
     }
     input.close();
     cout << "SUCCESS::LOAD FILE" << endl;
@@ -182,12 +184,17 @@ void use()
                 DrawText("Enter Phone Number to Query:", 200, 50, 20, DARKGRAY);
                 DrawRectangle(buttonPos.x, buttonPos.y-300, buttonWidth, buttonHeight, LIGHTGRAY);
                 DrawText(inputNumber.c_str(), inputPos.x, inputPos.y, 20, DARKBLUE);
+                
+                for(int i=0;i<phonebook.numbers.size();i++)
+                {
+                    cout << phonebook.numbers[i] << endl;
+                    DrawText(phonebook.numbers[i].c_str(), inputPos.x, inputPos.y+20*(i+1), 20, DARKBLUE);
+                }
 
                 // 查询操作
                 if (IsKeyPressed(KEY_ENTER)) {
-                    string address = phonebook.getAddress(inputNumber.c_str());
-                    string number = phonebook.getNumber(inputNumber.c_str());
-                    output = "Number: " + number + "\nAddress: " + address;
+                    info curInfo = phonebook.infos2[inputNumber];
+                    output = "Name: " + curInfo.name + "\nAddress: " + curInfo.address;
                     currentState = MAIN_MENU;
                     inputNumber = "";
                 }
@@ -195,10 +202,14 @@ void use()
                 // 输入处理
                 if (IsKeyPressed(KEY_BACKSPACE) && inputNumber.length() > 0) {
                     inputNumber.pop_back();
+                    phonebook.numbers = phonebook.tree.search(inputNumber);
+                    
                 }
                 for (int key = KEY_ZERO; key <= KEY_NINE; key++) {
-                    if (IsKeyPressed(key)) {
+                    if (IsKeyPressed(key))
+                    {
                         inputNumber += char(key);
+                        phonebook.numbers = phonebook.tree.search(inputNumber);
                     }
                 }
                 break;
@@ -329,6 +340,39 @@ void use()
     CloseWindow();
 }
 
+void dfs(vector<string> &ans, string &temp, TrieNode *cur)
+{
+    if (cur->End) {
+        ans.push_back(temp);
+        return;
+    }
+
+    for (char a = '0'; a <= '9'; a++) {
+        if (cur->children.find(a) != cur->children.end()) {
+            temp += a; // 添加当前字符
+            dfs(ans, temp, cur->children[a]); // 递归
+            temp.pop_back(); // 回溯
+        }
+    }
+}
+
+vector<string> Trile::search(const string &number)
+{
+    vector<string> ans;
+    string temp;
+    TrieNode* cur = root;
+    for(auto num : number)
+    {
+        //cout << num << " ";
+        if(cur->children.find(num) == cur->children.end())
+            return ans;
+        temp.push_back(num);
+        cur = cur->children[num];
+    }
+    dfs(ans, temp, cur);
+    return ans;
+}
+
 void Trile::insert(const string &number)
 {
     TrieNode* cur = root;
@@ -340,3 +384,7 @@ void Trile::insert(const string &number)
     }
     cur -> End = true;
 }
+
+
+
+

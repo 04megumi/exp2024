@@ -86,10 +86,38 @@ bin/CMakeFiles/exp.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/exp.dir/main.cpp.s"
 	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/weiziyue/Desktop/exp2024/src/main.cpp -o CMakeFiles/exp.dir/main.cpp.s
 
+bin/CMakeFiles/exp.dir/app.cpp.o: bin/CMakeFiles/exp.dir/flags.make
+bin/CMakeFiles/exp.dir/app.cpp.o: /Users/weiziyue/Desktop/exp2024/src/app.cpp
+bin/CMakeFiles/exp.dir/app.cpp.o: bin/CMakeFiles/exp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object bin/CMakeFiles/exp.dir/app.cpp.o"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bin/CMakeFiles/exp.dir/app.cpp.o -MF CMakeFiles/exp.dir/app.cpp.o.d -o CMakeFiles/exp.dir/app.cpp.o -c /Users/weiziyue/Desktop/exp2024/src/app.cpp
+
+bin/CMakeFiles/exp.dir/app.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/exp.dir/app.cpp.i"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/weiziyue/Desktop/exp2024/src/app.cpp > CMakeFiles/exp.dir/app.cpp.i
+
+bin/CMakeFiles/exp.dir/app.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/exp.dir/app.cpp.s"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/weiziyue/Desktop/exp2024/src/app.cpp -o CMakeFiles/exp.dir/app.cpp.s
+
+bin/CMakeFiles/exp.dir/cal.cpp.o: bin/CMakeFiles/exp.dir/flags.make
+bin/CMakeFiles/exp.dir/cal.cpp.o: /Users/weiziyue/Desktop/exp2024/src/cal.cpp
+bin/CMakeFiles/exp.dir/cal.cpp.o: bin/CMakeFiles/exp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object bin/CMakeFiles/exp.dir/cal.cpp.o"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bin/CMakeFiles/exp.dir/cal.cpp.o -MF CMakeFiles/exp.dir/cal.cpp.o.d -o CMakeFiles/exp.dir/cal.cpp.o -c /Users/weiziyue/Desktop/exp2024/src/cal.cpp
+
+bin/CMakeFiles/exp.dir/cal.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/exp.dir/cal.cpp.i"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/weiziyue/Desktop/exp2024/src/cal.cpp > CMakeFiles/exp.dir/cal.cpp.i
+
+bin/CMakeFiles/exp.dir/cal.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/exp.dir/cal.cpp.s"
+	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/weiziyue/Desktop/exp2024/src/cal.cpp -o CMakeFiles/exp.dir/cal.cpp.s
+
 bin/CMakeFiles/exp.dir/maze.cpp.o: bin/CMakeFiles/exp.dir/flags.make
 bin/CMakeFiles/exp.dir/maze.cpp.o: /Users/weiziyue/Desktop/exp2024/src/maze.cpp
 bin/CMakeFiles/exp.dir/maze.cpp.o: bin/CMakeFiles/exp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object bin/CMakeFiles/exp.dir/maze.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object bin/CMakeFiles/exp.dir/maze.cpp.o"
 	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bin/CMakeFiles/exp.dir/maze.cpp.o -MF CMakeFiles/exp.dir/maze.cpp.o.d -o CMakeFiles/exp.dir/maze.cpp.o -c /Users/weiziyue/Desktop/exp2024/src/maze.cpp
 
 bin/CMakeFiles/exp.dir/maze.cpp.i: cmake_force
@@ -103,7 +131,7 @@ bin/CMakeFiles/exp.dir/maze.cpp.s: cmake_force
 bin/CMakeFiles/exp.dir/phone.cpp.o: bin/CMakeFiles/exp.dir/flags.make
 bin/CMakeFiles/exp.dir/phone.cpp.o: /Users/weiziyue/Desktop/exp2024/src/phone.cpp
 bin/CMakeFiles/exp.dir/phone.cpp.o: bin/CMakeFiles/exp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object bin/CMakeFiles/exp.dir/phone.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object bin/CMakeFiles/exp.dir/phone.cpp.o"
 	cd /Users/weiziyue/Desktop/exp2024/build/bin && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT bin/CMakeFiles/exp.dir/phone.cpp.o -MF CMakeFiles/exp.dir/phone.cpp.o.d -o CMakeFiles/exp.dir/phone.cpp.o -c /Users/weiziyue/Desktop/exp2024/src/phone.cpp
 
 bin/CMakeFiles/exp.dir/phone.cpp.i: cmake_force
@@ -117,6 +145,8 @@ bin/CMakeFiles/exp.dir/phone.cpp.s: cmake_force
 # Object files for target exp
 exp_OBJECTS = \
 "CMakeFiles/exp.dir/main.cpp.o" \
+"CMakeFiles/exp.dir/app.cpp.o" \
+"CMakeFiles/exp.dir/cal.cpp.o" \
 "CMakeFiles/exp.dir/maze.cpp.o" \
 "CMakeFiles/exp.dir/phone.cpp.o"
 
@@ -124,11 +154,13 @@ exp_OBJECTS = \
 exp_EXTERNAL_OBJECTS =
 
 bin/exp: bin/CMakeFiles/exp.dir/main.cpp.o
+bin/exp: bin/CMakeFiles/exp.dir/app.cpp.o
+bin/exp: bin/CMakeFiles/exp.dir/cal.cpp.o
 bin/exp: bin/CMakeFiles/exp.dir/maze.cpp.o
 bin/exp: bin/CMakeFiles/exp.dir/phone.cpp.o
 bin/exp: bin/CMakeFiles/exp.dir/build.make
 bin/exp: bin/CMakeFiles/exp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable exp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/weiziyue/Desktop/exp2024/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable exp"
 	cd /Users/weiziyue/Desktop/exp2024/build/bin && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/exp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

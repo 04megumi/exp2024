@@ -130,6 +130,54 @@ exp/fast:
 	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/build
 .PHONY : exp/fast
 
+app.o: app.cpp.o
+.PHONY : app.o
+
+# target to build an object file
+app.cpp.o:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/app.cpp.o
+.PHONY : app.cpp.o
+
+app.i: app.cpp.i
+.PHONY : app.i
+
+# target to preprocess a source file
+app.cpp.i:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/app.cpp.i
+.PHONY : app.cpp.i
+
+app.s: app.cpp.s
+.PHONY : app.s
+
+# target to generate assembly for a file
+app.cpp.s:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/app.cpp.s
+.PHONY : app.cpp.s
+
+cal.o: cal.cpp.o
+.PHONY : cal.o
+
+# target to build an object file
+cal.cpp.o:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/cal.cpp.o
+.PHONY : cal.cpp.o
+
+cal.i: cal.cpp.i
+.PHONY : cal.i
+
+# target to preprocess a source file
+cal.cpp.i:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/cal.cpp.i
+.PHONY : cal.cpp.i
+
+cal.s: cal.cpp.s
+.PHONY : cal.s
+
+# target to generate assembly for a file
+cal.cpp.s:
+	cd /Users/weiziyue/Desktop/exp2024/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/exp.dir/build.make bin/CMakeFiles/exp.dir/cal.cpp.s
+.PHONY : cal.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -211,6 +259,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... exp"
+	@echo "... app.o"
+	@echo "... app.i"
+	@echo "... app.s"
+	@echo "... cal.o"
+	@echo "... cal.i"
+	@echo "... cal.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

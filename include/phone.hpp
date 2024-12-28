@@ -27,12 +27,14 @@ enum ScreenState {
     NAME_INSERT
 };
 
+
+
 void use();
 
 class TrieNode
 {
 public:
-    unordered_map<char, TriNode*> children;
+    unordered_map<char, TrieNode*> children;
     bool End;
 
     TrieNode() : End(false) {};
@@ -60,9 +62,14 @@ public:
     bool insert(string name, string number, string address);
 
     friend void use();
+    friend void dfs(vector<string> &ans, string & temp, TrieNode* cur);
+
+    Trile tree;
+    vector<string> numbers = {};
 
 private:
     unordered_map<std::string, info> infos;
+    unordered_map<std::string, info> infos2;
 };
 
 
